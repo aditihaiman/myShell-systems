@@ -18,9 +18,9 @@ int main() {
         char * s;
         printf("$ ");
         fgets(s, 100, stdin);
-        
-        if (strcmp(s,"exit")==0) x = 0;
-        //printf("%s\n", s);
+        if (strcmp(s,"exit\n")==0) x = 0;
+
+        //printf("s:%s cmp: %d\n", s, strcmp(s, "exit\n"));
         
         //sleep(0.5);
     }
