@@ -35,8 +35,11 @@ int main() {
         int child = fork();
 
         if (child == 0) {
-             char ** args = parse_args(command);
-             execvp(args[0], args);
+            char ** args = parse_args(command);
+            if (strcmp(args[0], "cd")==0){
+                chdir(args[1]);
+            }
+            execvp(args[0], args);
         }
 
         else {
