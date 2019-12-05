@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <errno.h>
 
 
 char ** parse_args( char * line ) {
@@ -29,7 +30,7 @@ int main() {
         char * command = strsep(&new, "\n");
         
         if (strcmp(command,"exit")==0) {
-            x = 0;
+            break;
         }
         
         int child = fork();
@@ -37,7 +38,9 @@ int main() {
         if (child == 0) {
             char ** args = parse_args(command);
             if (strcmp(args[0], "cd")==0){
+                printf("%s\n", args[1]);
                 chdir(args[1]);
+                printf("errno: %d  error: %s\n", errno, strerror(errno));
             }
             execvp(args[0], args);
         }
