@@ -27,27 +27,30 @@ int main() {
         printf("$ ");
         fgets(s, 100, stdin);
         char * new = s;
-        char * command = strsep(&new, "\n");
-        
-        if (strcmp(command,"exit")==0) {
+        char * command = strsep(&new, "\n"); //Removes \n from user input
+        char ** args = parse_args(command); //creates list with command to execute
+
+        if (strcmp(args[0],"exit")==0) { //exit
+            printf("[Process completed]\n");
             break;
         }
-        
-        int child = fork();
-
-        if (child == 0) {
-            char ** args = parse_args(command);
-            if (strcmp(args[0], "cd")==0){
-                printf("%s\n", args[1]);
-                chdir(args[1]);
-                printf("errno: %d  error: %s\n", errno, strerror(errno));
-            }
-            execvp(args[0], args);
+        else if (strcmp(args[0], "cd")==0){ //change directory
+            //printf("path: %s\n", args[1]);
+            chdir(args[1]);
+            //printf("errno: %d  error: %s\n", errno, strerror(errno));
         }
-
+        
         else {
-            wait(NULL);
+            int child = fork();
 
+            if (child == 0) { //creates child process to execute command
+                execvp(args[0], args);
+            }
+
+            else {
+                wait(NULL);
+
+            }
         }
         //printf("s:%s cmp: %d\n", s, strcmp(s, "exit\n"));
         
