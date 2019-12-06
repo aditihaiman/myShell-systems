@@ -7,12 +7,25 @@
 
 
 char ** parse_args( char * line ) {
-    char ** args = malloc(5 * sizeof(char *));
+    char ** args = malloc(10 * sizeof(char *));
     char *s1 = line;
     int idx = 0;
     char *s;
     while(line != NULL){
         args[idx] = strsep( &line, " ");
+        idx++;
+    }
+    args[idx] = NULL;
+    return args;
+}
+
+char ** parse_mult_args( char * line ) {
+    char ** args = malloc(10 * sizeof(char *));
+    char *s1 = line;
+    int idx = 0;
+    char *s;
+    while(line != NULL){
+        args[idx] = strsep( &line, ";");
         idx++;
     }
     args[idx] = NULL;
