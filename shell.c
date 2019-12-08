@@ -25,7 +25,7 @@ char ** parse_mult_args( char * line ) {
     int idx = 0;
     char *s;
     while(line != NULL){
-        args[idx] = strsep( &line, " ; ");
+        args[idx] = strsep( &line, ";");
         idx++;
     }
     args[idx] = NULL;
@@ -43,7 +43,7 @@ int main() {
         char * command = strsep(&new, "\n"); //Removes \n from user input
         char ** mult_args = parse_mult_args(command);
         int idx = 0;
-        while (mult_args[idx] != NULL) { //loops through each separate command 
+        while (mult_args[idx] != NULL) { //loops through each separate command
             char ** args = parse_args(mult_args[idx]); //creates list with command to execute
             //printf("arg0: %s\n", args[0]);
             if (strcmp(args[0],"exit")==0) { //exit
