@@ -4,6 +4,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <errno.h>
+#include <fcntl.h>
 
 
 char ** parse_args( char * line ) {
@@ -32,6 +33,20 @@ char ** parse_mult_args( char * line ) {
     return args;
 }
 
+int redirect_stdin(char * filename){
+    int fd = open(filename, O_CREAT, 0644);
+    //int backup = dup(STDIN_FILENO);
+    dup2(fd, STDIN_FILENO);
+    return fd;
+}
+
+int redirect_stdout(char * filename){
+    int fd = open(filename, O_CREAT, 0644);
+    //int backup = dup(STDOUT_FILENO);
+    dup2(fd, STDOUT_FILENO);
+    return fd;
+}
+
 int main() {
     int x = 1;
     
@@ -44,16 +59,38 @@ int main() {
         char ** mult_args = parse_mult_args(command);
         int idx = 0;
         while (mult_args[idx] != NULL) { //loops through each separate command
+            //char * line = mult_args[idx];
+            
+            //printf("line: %s\n", line);
+            
             char ** args = parse_args(mult_args[idx]); //creates list with command to execute
-            //printf("arg0: %s\n", args[0]);
+            
+            //char ** copy = args;
+            
+//            if (strstr(line, ">")!=NULL){
+//                printf("B\n");
+//                int idx2 = 0;
+//                while (args[idx2] != NULL) {
+//                    printf("A\n");
+//                    printf("arg %d: %s\n", idx2, args[idx2]);
+//                    if (strcmp(args[idx2], ">")==0) redirect_stdout(args[idx2+1]);
+//                    idx2++;
+//                }
+//            }
+//            if (strstr(line, "<")!=NULL){
+//                int idx2 = 0;
+//                while (args[idx2] != NULL) {
+//                    if (strcmp(args[idx2], ">")==0) redirect_stdin(args[idx2+1]);
+//                    idx2++;
+//                }
+//            }
+//
             if (strcmp(args[0],"exit")==0) { //exit
                 printf("[Process completed]\n");
                 goto end;
             }
             else if (strcmp(args[0], "cd")==0){ //change directory
-                //printf("path: %s\n", args[1]);
                 chdir(args[1]);
-                //printf("errno: %d  error: %s\n", errno, strerror(errno));
             }
             
             else {
@@ -68,10 +105,10 @@ int main() {
 
                 }
             }
-            idx++;
-            //printf("s:%s cmp: %d\n", s, strcmp(s, "exit\n"));
             
-            //sleep(0.5);
+            //undo redirection
+            
+            idx++;
         }
     }
     
