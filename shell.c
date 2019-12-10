@@ -59,32 +59,46 @@ int main() {
         char ** mult_args = parse_mult_args(command);
         int idx = 0;
         while (mult_args[idx] != NULL) { //loops through each separate command
-            //char * line = mult_args[idx];
-            
+            char line[100];// = malloc(sizeof(char * 100));
+            strcpy(line, mult_args[idx]);
+//            char * line = l;
+            //printf("line: %s\n", line);
+
             //printf("line: %s\n", line);
             
             char ** args = parse_args(mult_args[idx]); //creates list with command to execute
+            int backup;
             
-            //char ** copy = args;
-            
-//            if (strstr(line, ">")!=NULL){
-//                printf("B\n");
-//                int idx2 = 0;
-//                while (args[idx2] != NULL) {
-//                    printf("A\n");
-//                    printf("arg %d: %s\n", idx2, args[idx2]);
-//                    if (strcmp(args[idx2], ">")==0) redirect_stdout(args[idx2+1]);
-//                    idx2++;
-//                }
-//            }
-//            if (strstr(line, "<")!=NULL){
-//                int idx2 = 0;
-//                while (args[idx2] != NULL) {
-//                    if (strcmp(args[idx2], ">")==0) redirect_stdin(args[idx2+1]);
-//                    idx2++;
-//                }
-//            }
-//
+            char ** copy = args;
+            printf("line: %s\n", line);
+            if (strstr(line, ">")!=NULL){
+                printf("B\n");
+                int idx2 = 0;
+                while (args[idx2] != NULL) {
+                    printf("A\n");
+                    printf("arg %d: %s\n", idx2, args[idx2]);
+                    if (strcmp(args[idx2], ">")==0) {
+                        printf("C\n");
+                        int fd = open(args[idx2+1], O_CREAT, 0644);
+                        backup = dup(STDOUT_FILENO);
+                        dup2(fd, STDOUT_FILENO);
+//                        redirect_stdout(args[idx2+1]);
+                        args[idx2] = NULL;
+                        args[idx2+1] = NULL;
+                        printf("D\n");
+//                        free(line);
+                    }
+                    idx2++;
+                }
+            }
+            if (strstr(line, "<")!=NULL){
+                int idx2 = 0;
+                while (args[idx2] != NULL) {
+                    if (strcmp(args[idx2], ">")==0) redirect_stdin(args[idx2+1]);
+                    idx2++;
+                }
+            }
+
             if (strcmp(args[0],"exit")==0) { //exit
                 printf("[Process completed]\n");
                 goto end;
@@ -107,6 +121,7 @@ int main() {
             }
             
             //undo redirection
+            dup2(backup, STDOUT_FILENO);
             
             idx++;
         }
