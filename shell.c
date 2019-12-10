@@ -61,6 +61,8 @@ int main() {
         while (mult_args[idx] != NULL) { //loops through each separate command
             char line[100];// = malloc(sizeof(char * 100));
             strcpy(line, mult_args[idx]);
+            int stdout = 0;
+            int stdin = 0;
 //            char * line = l;
             //printf("line: %s\n", line);
 
@@ -79,13 +81,19 @@ int main() {
                     printf("arg %d: %s\n", idx2, args[idx2]);
                     if (strcmp(args[idx2], ">")==0) {
                         printf("C\n");
-                        int fd = open(args[idx2+1], O_CREAT, 0644);
+                        printf("stdout before: %d\n", STDOUT_FILENO);
                         backup = dup(STDOUT_FILENO);
+                        printf("backup: %d\n", backup);
+                        int fd = open(args[idx2+1], O_CREAT, 0644);
+                        fd = open(args[idx2+1], O_RDWR);
+                        //printf("fd: %d\n", fd);
                         dup2(fd, STDOUT_FILENO);
+
 //                        redirect_stdout(args[idx2+1]);
                         args[idx2] = NULL;
                         args[idx2+1] = NULL;
-                        printf("D\n");
+                        stdout = 1;
+                        //printf("D\n");
 //                        free(line);
                     }
                     idx2++;
@@ -94,8 +102,12 @@ int main() {
             if (strstr(line, "<")!=NULL){
                 int idx2 = 0;
                 while (args[idx2] != NULL) {
-                    if (strcmp(args[idx2], ">")==0) redirect_stdin(args[idx2+1]);
+                    if (strcmp(args[idx2], ">")==0) {
+                        redirect_stdin(args[idx2+1]);
+                        stdin = 1;
+                    }
                     idx2++;
+    
                 }
             }
 
@@ -121,7 +133,8 @@ int main() {
             }
             
             //undo redirection
-            dup2(backup, STDOUT_FILENO);
+            if (stdout) dup2(backup, STDOUT_FILENO);
+            if (stdin) dup2(backup, STDIN_FILENO);
             
             idx++;
         }
