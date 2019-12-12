@@ -95,6 +95,27 @@ int main() {
                 }
             }
 
+            char * first_args = args[0];
+            if (strstr(line, "|") != NULL) {
+                FILE *p = popen(args[0], "r"); //open read end of pipe
+                if (p == NULL) {
+                    printf("error\n");
+                }
+                
+                else {
+                    char pipedCommands[100];
+                    FILE *p2 = popen(args[2], "w"); //open write end of pipe
+                    while (fgets( pipedCommands, sizeof(pipedCommands), p) != NULL) {
+                        fputs(pipedCommands, p2); //write info to input of next command
+                        //printf("%s->%s", args[0], pipedCommands);
+                    }
+                    pclose(p2);
+                }
+                pclose(p);
+                break; //prevents command from being executed later
+            }
+            
+            
             if (strcmp(args[0],"exit")==0) { //exit
                 printf("[Process completed]\n");
                 goto end;
