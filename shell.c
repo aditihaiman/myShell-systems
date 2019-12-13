@@ -33,7 +33,7 @@ char ** parse_mult_args( char * line ) {
     return args;
 }
 
-int redirect_stdin(char * filename){
+int redirect_stdin( char * filename ){
     int backup = dup(STDIN_FILENO);
     int fd = open(filename, O_CREAT, 0644);
     fd = open(filename, O_RDWR);
@@ -41,7 +41,7 @@ int redirect_stdin(char * filename){
     return backup;
 }
 
-int redirect_stdout(char * filename){
+int redirect_stdout( char * filename ){
     int backup = dup(STDOUT_FILENO);
     int fd = open(filename, O_CREAT, 0644);
     fd = open(filename, O_RDWR);
@@ -51,7 +51,7 @@ int redirect_stdout(char * filename){
 
 int main() {
     int x = 1;
-    
+
     while(x) {
         char s[100];
         printf("$ ");
@@ -68,8 +68,8 @@ int main() {
 
             char ** args = parse_args(mult_args[idx]); //creates list with command to execute
             int backup;
-            
-            if (strstr(line, ">")!=NULL){
+
+            if (strstr(line, ">")!=NULL){         //redirect stdout
                 int idx2 = 0;
                 while (args[idx2] != NULL) {
                     if (strcmp(args[idx2], ">")==0) {
@@ -81,7 +81,7 @@ int main() {
                     idx2++;
                 }
             }
-            if (strstr(line, "<")!=NULL){
+            if (strstr(line, "<")!=NULL){         //redirect stdin
                 int idx2 = 0;
                 while (args[idx2] != NULL) {
                     if (strcmp(args[idx2], "<")==0) {
@@ -91,23 +91,37 @@ int main() {
                         stdin = 1;
                     }
                     idx2++;
-    
+
+                }
+            }
+            char * first_args = args[0];
+            if (strstr(line, "|")!=NULL){         //piping
+                FILE *p = popen(args[0], "r");
+                if (p == NULL){
+                    printf("cannot open pipe process\n");
+                }
+
+                else{
+                    fgets(command, 100, p);
+                    printf("command: %s\n", command);
+                    args = parse_args(command);
+                    pclose(p);
                 }
             }
 
-            if (strcmp(args[0],"exit")==0) { //exit
+            if (strcmp(first_args,"exit")==0) {   //exit
                 printf("[Process completed]\n");
                 goto end;
             }
-            else if (strcmp(args[0], "cd")==0){ //change directory
+            else if (strcmp(first_args, "cd")==0){ //change directory
                 chdir(args[1]);
             }
-            
+
             else {
                 int child = fork();
 
                 if (child == 0) { //creates child process to execute command
-                    execvp(args[0], args);
+                    execvp(first_args, args);
                 }
 
                 else {
@@ -115,15 +129,15 @@ int main() {
 
                 }
             }
-            
+
             //undo redirection
             if (stdout) dup2(backup, STDOUT_FILENO);
             if (stdin) dup2(backup, STDIN_FILENO);
-            
+
             idx++;
         }
     }
-    
+
     end:
     return 0;
 }
