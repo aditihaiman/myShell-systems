@@ -1,20 +1,23 @@
 # myShell-systems
 
 Features:
-      Forks and executes commands.
-      Parses multiple commands on one line.
-      Redirects using <, >.
-      Exits shell.
-      Changes directories.
+      Features:
+      - Forks and executes basic shell commands including cd, rm, cat, ls, etc.
+      - Parses multiple commands on one line.
+      - Redirects using <, >.
+      - Implements simple piping.
+      - Exits shell.
+
+
+
 
 
 
 
 Bugs:
 - sometimes, the program doesn't exit immediately after typing "exit", but only after typing "exit" multiple times (but this doesn't always happen)
-<<<<<<< HEAD
 - when you type cd, it doesn't go to the home directory but typing "cd /" will
-
+- commands like "ls" or commands using ";" only work without spaces inbetween/after them. For example "ls" works but "ls " doesn't, and "ls;cd .." works but "ls ; cd .." doesn't
 
 Files and Functions:
 main.c
@@ -54,6 +57,4 @@ main.c
 
 
       ======================*/
-=======
-- commands like "ls" or commands using ";" only work without spaces inbetween/after them. For example "ls" works but "ls " doesn't, and "ls;cd .." works but "ls ; cd .." doesn't
->>>>>>> 0fdb97a341f29c625ed130f8b164e19645417eea
+
