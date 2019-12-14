@@ -1,14 +1,11 @@
 # myShell-systems
 
 Features:
-      Features:
-      - Forks and executes basic shell commands including cd, rm, cat, ls, etc.
-      - Parses multiple commands on one line.
-      - Redirects using <, >.
-      - Implements simple piping.
-      - Exits shell.
-
-
+- Forks and executes basic shell commands including cd, rm, cat, ls, etc.
+- Parses multiple commands on one line.
+- Redirects using <, >.
+- Implements simple piping.
+- Exits shell.
 
 
 
@@ -20,10 +17,13 @@ Bugs:
 - commands like "ls" or commands using ";" only work without spaces inbetween/after them. For example "ls" works but "ls " doesn't, and "ls;cd .." works but "ls ; cd .." doesn't
 
 Files and Functions:
-main.c
-      Handles all code and functions to create and execute the shell.
+      
+      main.c: Handles all code and functions to create and execute the shell.
+      
       /*============== char **parse_args( char * line );=================
+      
       Inputs: char * line
+      
       Returns: Array of strings with the parsed line.
 
       The input is a line containing multiple words separated by a space;
