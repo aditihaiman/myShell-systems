@@ -40,18 +40,18 @@ Files and Functions:
 
       /*============== int redirect_stdin( char * filename ); ============
       Inputs: char * filename
-      Returns: A backup file for stdin.
+      Returns: The file descriptor of the backup for stdin.
 
-      ????????????
+      This function creates a file and redirects stdin to that file.
       ======================*/
 
       /*============== int redirect_stdout( char * filename ); ============
       Inputs: char * filename
-      Returns: A backup file for stdin.
+      Returns: The file descriptor of the backup for stdout.
 
-      This function creates a file and redirects stdout into that file,
-      returning a backup stdout file.
+      This function creates a file and redirects stdout to that file.
       ======================*/
+
 
       /*============== int main(); ============
 
