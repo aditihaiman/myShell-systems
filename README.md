@@ -16,7 +16,7 @@ Bugs:
 
 Files and Functions:
 
-      main.c: Handles all code and functions to create and execute the shell.
+      shell.c: Handles all code and functions to create and execute the shell.
 
       /*============== char **parse_args( char * line );=================
       Inputs: char * line
