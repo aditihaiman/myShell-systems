@@ -1,24 +1,22 @@
 # myShell-systems
 
 Features:
-      Forks and executes commands.
-      Parses multiple commands on one line.
-      Redirects using <, >.
-      Executes pipe using |.
-      Changes directories.
-      Exits shell.
+- Forks and executes basic shell commands including cd, rm, cat, ls, etc.
+- Parses multiple commands on one line.
+- Redirects using <, >.
+- Executes pipe using |.
+- Changes directories.
+- Exits shell.
 
 Bugs:
 - sometimes, the program doesn't exit immediately after typing "exit", but only after typing "exit" multiple times (but this doesn't always happen)
-<<<<<<< HEAD
-- when you type cd, it doesn't go to the home directory
+- when you type cd, it doesn't go to the home directory but typing "cd /" will
 - commands like "ls" or commands using ";" only work without spaces in between/after them. For example "ls" works but "ls " doesn't, and "ls;cd .." works but "ls ; cd .." doesn't
 
 
 Files and Functions:
 
-main.c
-      Handles all code and functions to create and execute the shell.
+      main.c: Handles all code and functions to create and execute the shell.
 
       /*============== char **parse_args( char * line );=================
       Inputs: char * line
@@ -38,17 +36,16 @@ main.c
 
       /*============== int redirect_stdin( char * filename ); ============
       Inputs: char * filename
-      Returns: A backup file for stdin.
+      Returns: The file descriptor of the backup for stdin.
 
-      ????????????
+      This function creates a file and redirects stdin to that file.
       ======================*/
 
       /*============== int redirect_stdout( char * filename ); ============
       Inputs: char * filename
-      Returns: A backup file for stdin.
+      Returns: The file descriptor of the backup for stdout.
 
-      This function creates a file and redirects stdout into that file,
-      returning a backup stdout file.
+      This function creates a file and redirects stdout into that file.
       ======================*/
 
       /*============== int main(); ============
