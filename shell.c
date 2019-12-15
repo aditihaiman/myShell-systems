@@ -100,25 +100,6 @@ int main() {
                 if (p == NULL){
                     printf("cannot open pipe process\n");
                 }
-
-<<<<<<< HEAD
-                else{
-                    fgets(command, 100, p);
-                    printf("command: %s\n", command);
-                    args = parse_args(command);
-                    pclose(p);
-                }
-            }
-
-            if (strcmp(first_args,"exit")==0) {   //exit
-=======
-            char * first_args = args[0];
-            if (strstr(line, "|") != NULL) {
-                FILE *p = popen(args[0], "r"); //open read end of pipe
-                if (p == NULL) {
-                    printf("error\n");
-                }
-                
                 else {
                     char pipedCommands[100];
                     FILE *p2 = popen(args[2], "w"); //open write end of pipe
@@ -134,7 +115,6 @@ int main() {
             
             
             if (strcmp(args[0],"exit")==0) { //exit
->>>>>>> 0fdb97a341f29c625ed130f8b164e19645417eea
                 printf("[Process completed]\n");
                 goto end;
             }
