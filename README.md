@@ -4,11 +4,9 @@ Features:
       Forks and executes commands.
       Parses multiple commands on one line.
       Redirects using <, >.
-      Exits shell.
+      Executes pipe using |.
       Changes directories.
-
-
-
+      Exits shell.
 
 Bugs:
 - sometimes, the program doesn't exit immediately after typing "exit", but only after typing "exit" multiple times (but this doesn't always happen)
@@ -18,8 +16,10 @@ Bugs:
 
 
 Files and Functions:
+
 main.c
       Handles all code and functions to create and execute the shell.
+
       /*============== char **parse_args( char * line );=================
       Inputs: char * line
       Returns: Array of strings with the parsed line.
@@ -52,7 +52,7 @@ main.c
       ======================*/
 
       /*============== int main(); ============
-
+      Executes shell and shell commands.
 
       ======================*/
 =======
