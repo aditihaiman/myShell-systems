@@ -13,7 +13,8 @@ Features:
 Bugs:
 - sometimes, the program doesn't exit immediately after typing "exit", but only after typing "exit" multiple times (but this doesn't always happen)
 <<<<<<< HEAD
-- when you type cd, it doesn't go to the home directory but typing "cd /" will
+- when you type cd, it doesn't go to the home directory
+- commands like "ls" or commands using ";" only work without spaces in between/after them. For example "ls" works but "ls " doesn't, and "ls;cd .." works but "ls ; cd .." doesn't
 
 
 Files and Functions:
@@ -55,5 +56,4 @@ main.c
 
       ======================*/
 =======
-- commands like "ls" or commands using ";" only work without spaces inbetween/after them. For example "ls" works but "ls " doesn't, and "ls;cd .." works but "ls ; cd .." doesn't
 >>>>>>> 0fdb97a341f29c625ed130f8b164e19645417eea
